@@ -4,13 +4,14 @@ import time
 import undetected_chromedriver as uc
 from urllib.parse import urljoin
 
+#get a list of the categories urls
 def get_book_urls_by_categories():
     try:
+        #Chromedriver to get the webpage html
         options = uc.ChromeOptions()
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
         driver = uc.Chrome(options=options)
-
         url = f"http://books.toscrape.com"
         driver.get(url)
         html = driver.page_source

@@ -2,6 +2,8 @@ import pandas as pd #to clean transform and export information
 import os
 
 #Library csv cleanse
+#Remove duplicates, change categories 'Default' and 'Add a comment' for 'Not specified'
+#And split currency from price
 def library_cleanse():
     current_dir = os.getcwd()
     export_dir = os.path.join(current_dir, "scrapper", "spiders", "exports")
@@ -12,6 +14,8 @@ def library_cleanse():
     library_df1.to_excel(os.path.join(export_dir, 'library.xlsx'), index=False)
 
 #Book csv cleanse
+#Merge library with books information, split currency from tax, price, and price with no tax
+#And create the final excel (of raw data)
 def book_cleanse():
     current_dir = os.getcwd()
     export_dir = os.path.join(current_dir, "scrapper", "spiders", "exports")

@@ -4,11 +4,13 @@ import os
 from scrapper.spiders.etl import book_cleanse
 from scrapy import signals
 
+#Obtain absolute paths to work in any location
 current_dir = os.getcwd()
 export_dir = os.path.join(current_dir, "scrapper", "spiders", "exports")
 os.makedirs(export_dir, exist_ok=True)
 output_path = os.path.join(export_dir, "book_data.csv")
 
+#Define class
 class MySpider(scrapy.Spider):
     name = "book_data"
     custom_settings = {
@@ -20,29 +22,35 @@ class MySpider(scrapy.Spider):
         }
     }
 
+    #Read the library file to obtain all the ulrs to obtain information of everybook
     def read_library(self):
         df = pd.read_excel(os.path.join(export_dir,'library.xlsx'), index_col=None)
         list_of_urls = df['URL'].to_list()
         return list_of_urls
 
+    #execute on start
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.urls = self.read_library()
 
+    #Start creating request for every url
     def start_requests(self):
         for url in self.urls:
             yield scrapy.Request(url, callback=self.parse)
 
-    @classmethod 
+    @classmethod #to bound the class with the function
+    #instantiate objects
     def from_crawler(cls, crawler, *args, **kwargs):
         spider = super().from_crawler(crawler, *args, **kwargs)
         crawler.signals.connect(spider.spider_closed, signals.spider_closed)
 
         return spider       
+    
+    #After  completing the process it will run this part of the code
     def spider_closed(self, spider):
-        book_cleanse()
         print("Process completed successfully")
 
+    #parse the data
     def parse(self, response):
         title = response.css("div.product_main > h1::text").get()
         upc = response.xpath("//table[contains(@class,'table-striped')]//tr[th/text()='UPC']/td/text()").get()

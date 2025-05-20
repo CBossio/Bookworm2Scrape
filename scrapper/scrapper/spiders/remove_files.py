@@ -1,6 +1,7 @@
 import os
 import shutil
 
+#Remove old csv and excels
 def remove_old():
     current_dir = os.getcwd()
     export_dir = os.path.join(current_dir, "scrapper", "spiders", "exports")
