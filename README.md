@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="img/Bookworm.jpg" alt="logo" />
+    <img src="img/Bookworm.png" alt="logo" />
 </p>
 <h1 align="center">Bookworm2Scrape Setup Guide 📖🐛</h1>
 
