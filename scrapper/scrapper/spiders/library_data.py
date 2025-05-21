@@ -2,21 +2,17 @@ import scrapy
 from urllib.parse import urljoin
 import time
 from scrapper.spiders.categories import get_book_urls_by_categories
+from scrapper.spiders.handle_failure import handle_failure_function
+from scrapper.spiders.paths import absolute_paths
 from scrapy import signals
 from scrapy.exceptions import CloseSpider
 import os
 
+export_dir = absolute_paths()
 
-#Obtain absolute paths to work in any location
-current_dir = os.getcwd()
-export_dir = os.path.join(current_dir, "scrapper", "spiders", "exports")
-os.makedirs(export_dir, exist_ok=True)
-output_path = os.path.join(export_dir, "library.csv")
-
-
-class MySpider(scrapy.Spider):
+class LibrarySpider(scrapy.Spider):
     name = "library_data"
-
+    output_path = os.path.join(export_dir, "library.csv")
     custom_settings = {
         "FEEDS": {
             output_path: {
@@ -33,37 +29,34 @@ class MySpider(scrapy.Spider):
         self.counter = 1
         self.dictionary_categories = get_book_urls_by_categories()
         self.category = self.dictionary_categories
+        open(os.path.join(export_dir,"failed_urls_library.txt"), "w").close()
 
     @classmethod #to bound the class with the function
     #instantiate objects
     def from_crawler(cls, crawler, *args, **kwargs):
         spider = super().from_crawler(crawler, *args, **kwargs)
-        crawler.signals.connect(spider.handle_spider_error, signal=signals.spider_error)
         crawler.signals.connect(spider.spider_closed, signals.spider_closed)
         return spider
-        
-    #error handling
-    def handle_spider_error(self, failure, response, spider):
-        self.logger.error(f"Critical spider error: {failure}")
-        raise CloseSpider("Fatal error during crawling/writing. Shutting down.")
     
-    #Start creating request for every category url
     def start_requests(self):
         for row in self.dictionary_categories:
-            yield scrapy.Request(row["url"], callback=self.parse, meta={"category": row["category"]})
-
-    def handle_failure(self, failure):
-        self.logger.warning(f"Request failed or timed out: {failure.request.url} - Reason: {failure.value}")
+            yield scrapy.Request(
+                row["url"],
+                callback=self.parse,
+                errback=self.handle_failure,
+                meta={
+                    "category": row["category"],
+                    "download_timeout": 20
+                }
+            )
 
     #After  completing the process it will run this part of the code
     def spider_closed(self, spider):
         print("Process completed successfully")
 
-    def errback_httpbin(self, failure):
-        self.logger.error(f"Failed: {failure.request.url}")
-        with open("failed_urls.txt", "a") as f:
-            f.write(failure.request.url + "\n")
-
+    def handle_failure(self, failure):
+            handle_failure_function(self, failure,"library")
+    
     #parse the data
     def parse(self, response):
         if not response.body or response.status != 200:
@@ -107,9 +100,8 @@ class MySpider(scrapy.Spider):
             yield response.follow(
                 next_url,
                 callback=self.parse,
-                errback=self.errback_httpbin,
                 errback=self.handle_failure,
-                meta={"category": category, "download_timeout": 10}
+                meta={"category": category, "download_timeout": 20}
             )
 
     
