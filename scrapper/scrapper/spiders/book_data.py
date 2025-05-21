@@ -1,7 +1,6 @@
 import scrapy
 import pandas as pd
 import os
-from scrapper.spiders.etl import book_cleanse
 from scrapy import signals
 
 #Obtain absolute paths to work in any location
@@ -17,14 +16,15 @@ class MySpider(scrapy.Spider):
         "FEEDS": {
             output_path: {
                 "format": "csv",
-                "overwrite": True
+                "overwrite": True,
+                'DOWNLOAD_DELAY': 1
             }
         }
     }
 
     #Read the library file to obtain all the ulrs to obtain information of everybook
     def read_library(self):
-        df = pd.read_excel(os.path.join(export_dir,'library.xlsx'), index_col=None)
+        df = pd.read_csv(os.path.join(export_dir,'library.csv'), index_col=None)
         list_of_urls = df['URL'].to_list()
         return list_of_urls
 

@@ -4,7 +4,7 @@
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
-
+import random
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 
@@ -98,3 +98,23 @@ class ScrapperDownloaderMiddleware:
 
     def spider_opened(self, spider):
         spider.logger.info("Spider opened: %s" % spider.name)
+
+
+class RandomUserAgentMiddleware:
+    def __init__(self, user_agents, proxies):
+        self.user_agents = user_agents or []
+        self.proxies = proxies or []
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(
+            proxies=crawler.settings.get('PROXY_LIST'),
+            user_agents=crawler.settings.get('USER_AGENTS_LIST')
+
+        )
+
+    def process_request(self, request, spider):
+        if self.user_agents:
+            request.headers['User-Agent'] = random.choice(self.user_agents)
+        if self.proxies:
+            request.meta['proxy'] = random.choice(self.proxies)

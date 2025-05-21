@@ -91,3 +91,35 @@ ROBOTSTXT_OBEY = True
 
 # Set settings whose default value is deprecated to a future-proof value
 FEED_EXPORT_ENCODING = "utf-8"
+
+DOWNLOADER_MIDDLEWARES = {
+    'scrapper.middlewares.RandomUserAgentMiddleware': 400,
+}
+
+USER_AGENTS_LIST = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15",
+    "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:92.0) Gecko/20100101 Firefox/92.0"
+]
+
+#Argentinian Proxies
+PROXY_LIST = [
+    "http://168.196.114.193:56000",
+    "http://181.209.91.107:999",
+    "http://23.82.137.157:80",
+    "http://190.103.177.131:80",
+    "http://190.103.205.253:9097",
+    "http://45.191.7.249:8080"
+]
+
+DOWNLOAD_DELAY = 0.5
+AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_START_DELAY = 1.0
+AUTOTHROTTLE_MAX_DELAY = 5.0
+AUTOTHROTTLE_TARGET_CONCURRENCY = 2.0
+RETRY_ENABLED = True
+RETRY_TIMES = 2
+CONCURRENT_REQUESTS = 16
+CONCURRENT_REQUESTS_PER_DOMAIN = 8
+CONCURRENT_REQUESTS_PER_IP = 8
+DOWNLOAD_TIMEOUT = 20
