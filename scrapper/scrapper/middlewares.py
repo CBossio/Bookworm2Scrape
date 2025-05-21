@@ -102,6 +102,7 @@ class ScrapperDownloaderMiddleware:
 
 class RandomUserAgentMiddleware:
     def __init__(self, user_agents, proxies):
+    #def __init__(self, user_agents):
         self.user_agents = user_agents or []
         self.proxies = proxies or []
 
