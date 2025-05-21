@@ -42,3 +42,22 @@ Follow these steps to set up the project on your local machine.
 8. **Install dependencies**
    ```bash
    pip install -r requirements.txt
+
+## Execute
+### Airflow
+
+### Jupyter
+<img src="img/code_preview.png" alt="logo" />
+<p> The process its pretty straight foward, you should run all the cells in order<p>
+
+### Quickfixes & Notes
+<p> In case of having multiple log errors in the "failed_urls_library" or "failed_urls_book"
+You should modify in the setting.py the Proxies, the log shows which is the one struggling</p>
+
+<p> Sometimes the code throws a random error of charmap codec, but it doesent affect the code</p>
+
+
+
+
+
+
