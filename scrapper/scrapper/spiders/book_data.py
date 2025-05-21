@@ -2,16 +2,16 @@ import scrapy
 import pandas as pd
 import os
 from scrapy import signals
+from scrapper.spiders.paths import absolute_paths
+from scrapper.spiders.handle_failure import handle_failure_function
 
-#Obtain absolute paths to work in any location
-current_dir = os.getcwd()
-export_dir = os.path.join(current_dir, "scrapper", "spiders", "exports")
-os.makedirs(export_dir, exist_ok=True)
-output_path = os.path.join(export_dir, "book_data.csv")
+
+export_dir = absolute_paths()
 
 #Define class
-class MySpider(scrapy.Spider):
+class BoosSpider(scrapy.Spider):
     name = "book_data"
+    output_path = os.path.join(export_dir, "book_data.csv")
     custom_settings = {
         "FEEDS": {
             output_path: {
@@ -32,11 +32,15 @@ class MySpider(scrapy.Spider):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.urls = self.read_library()
+        open(os.path.join(export_dir,"failed_urls_book.txt"), "w").close()
 
     #Start creating request for every url
     def start_requests(self):
         for url in self.urls:
-            yield scrapy.Request(url, callback=self.parse)
+            yield scrapy.Request(url,
+                                 callback=self.parse,
+                                 errback=self.handle_failure,)
+        
 
     @classmethod #to bound the class with the function
     #instantiate objects
@@ -50,6 +54,10 @@ class MySpider(scrapy.Spider):
     def spider_closed(self, spider):
         print("Process completed successfully")
 
+
+    def handle_failure(self, failure):
+        handle_failure_function(self, failure, "book")
+    
     #parse the data
     def parse(self, response):
         title = response.css("div.product_main > h1::text").get()
