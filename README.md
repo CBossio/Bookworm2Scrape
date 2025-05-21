@@ -19,12 +19,26 @@ Follow these steps to set up the project on your local machine.
    ```bash
    cd your/path/to/the/folder
 
-3. `git clone https://github.com/CBossio/Bookworm2Scrape.git`
+3. **Clone the repo**
+   ```bash
+   git clone https://github.com/CBossio/Bookworm2Scrape.git
 
-4. `cd Bookworm2Scrape`
+4. **Create an enviroment**
+   ```bash
+   python -m venv venv
 
-5. `venv\Scripts\activate`
+5. **Enter the project folder**
+   ```bash
+   cd Bookworm2Scrape
 
-6. `where python`
+6. **Activate the enviroment**
+   ```bash
+   venv\Scripts\activate
 
-7. `pip install -r requirements.txt`
+7. **Check isolated Python**
+   ```bash
+   where python
+
+8. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
