@@ -108,7 +108,7 @@ Run all cells in order to execute the extraction process.
 ## Notes & Quick Fixes
 
 - If you encounter multiple log errors in `failed_urls_library` or `failed_urls_book`, update the **proxies** in `settings.py`. The logs will indicate which proxy is failing.
-- You might occasionally see a `charmap` codec error. This does not affect the execution of the script.
+- You might occasionally see a `charmap` codec error. This does not affect the execution of the script, because all the code is set to UTF-8.
 
 ---
 

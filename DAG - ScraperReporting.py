@@ -13,7 +13,6 @@ def load_df():
 def books_per_category():
     df, project_root = load_df()
     output_folder = os.path.join(project_root, 'reporting_output')
-    os.makedirs(output_folder, exist_ok=True)
     report = df.groupby("Category")["UPC"].count().reset_index(name="Book_Count").sort_values("Book_Count", ascending=False)
     report.to_excel(os.path.join(output_folder, "books_per_category.xlsx"), index=False)
 
@@ -76,26 +75,43 @@ def price_range_pie_chart():
     plt.savefig(os.path.join(output_folder, "price_range_pie_chart.png"), dpi=300)
     plt.close()
 
-def create_reporting_dag():
-    with DAG(
-        dag_id="scraper_reporting_dag",
-        schedule_interval=None,
-        start_date=datetime(2025, 5, 22),
-        catchup=False,
-        tags=["reporting"]
-    ) as dag:
+def create_folder():
+    output_folder = os.path.join(project_root, 'reporting_output')
+    os.makedirs(output_folder, exist_ok=True)
+    
+default_args = {
+    'owner': 'airflow',
+    'start_date': datetime(2024, 1, 1),
+    'retries': 1,
+}
 
-        tasks = [
-            PythonOperator(task_id="books_per_category", python_callable=books_per_category),
-            PythonOperator(task_id="best_titles_with_less_stock", python_callable=best_titles_with_less_stock),
-            PythonOperator(task_id="best_categories_with_less_stock", python_callable=best_categories_with_less_stock),
-            PythonOperator(task_id="average_price_per_category", python_callable=average_price_per_category),
-            PythonOperator(task_id="best_expensive_books", python_callable=best_expensive_books),
-            PythonOperator(task_id="best_cheap_books", python_callable=best_cheap_books),
-            PythonOperator(task_id="rating_pie_chart", python_callable=rating_pie_chart),
-            PythonOperator(task_id="price_range_pie_chart", python_callable=price_range_pie_chart),
-        ]
+project_root = os.path.join(os.path.abspath(os.getcwd()), f'dags',f'Bookworm2Scrape', f'scrapper')
 
-        return dag
+with DAG(
+    dag_id="scraper_reporting_dag",
+    schedule_interval=None,
+    default_args=default_args,
+    start_date=datetime(2025, 5, 22),
+    catchup=False,
+    tags=["reporting"]
+) as dag:
+    
+    create_folder_task = PythonOperator(
+        task_id="create_output_folder",
+        python_callable=create_folder
+    )
 
-globals()["scraper_reporting_dag"] = create_reporting_dag()
+    tasks = [
+        PythonOperator(task_id="books_per_category", python_callable=books_per_category),
+        PythonOperator(task_id="best_titles_with_less_stock", python_callable=best_titles_with_less_stock),
+        PythonOperator(task_id="best_categories_with_less_stock", python_callable=best_categories_with_less_stock),
+        PythonOperator(task_id="average_price_per_category", python_callable=average_price_per_category),
+        PythonOperator(task_id="best_expensive_books", python_callable=best_expensive_books),
+        PythonOperator(task_id="best_cheap_books", python_callable=best_cheap_books),
+        PythonOperator(task_id="rating_pie_chart", python_callable=rating_pie_chart),
+        PythonOperator(task_id="price_range_pie_chart", python_callable=price_range_pie_chart),
+    ]
+
+
+
+create_folder_task >> tasks
