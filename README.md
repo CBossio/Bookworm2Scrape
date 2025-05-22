@@ -44,6 +44,9 @@ Follow these steps to set up the project on your local machine.
    sudo apt install -y ./google-chrome-stable_current_amd64.deb
    pip install -r requirements.txt
    ```
+
+4. **Move the file "DAG - ScraperETL" and "DAG - ScraperReporting"  two folder up (outside the Bookworm2Scrape folder)** 
+This step moves the DAG to the dags folder
 ---
 
 ## Installation for Jupyter
@@ -91,8 +94,8 @@ Follow these steps to set up the project on your local machine.
 ## Execute Extraction
 
 ### Using Airflow
-
-
+<img src="img/airflow_preview.png" alt="ETL Preview" />
+Just click run in the DAG
 
 ### Using Jupyter
 
@@ -113,7 +116,8 @@ Run all cells in order to execute the extraction process.
 
 ### Using Airflow
 
-*Instructions coming soon.*
+<img src="img/airflow_preview_report.png" alt="Report Preview" />
+Just click run in the DAG
 
 ### Using Jupyter
 

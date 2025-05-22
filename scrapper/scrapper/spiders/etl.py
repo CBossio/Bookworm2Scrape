@@ -1,5 +1,6 @@
 import pandas as pd #to clean transform and export information
 import os
+import sys
 
 #Library csv cleanse
 #Remove duplicates, change categories 'Default' and 'Add a comment' for 'Not specified'
@@ -36,4 +37,17 @@ def book_cleanse():
     result_df.to_csv(os.path.join(current_dir, 'result.csv'), index=False)
 
 
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Please provide the function to run: 'library' or 'book'")
+        sys.exit(1)
 
+    task = sys.argv[1].lower()
+
+    if task == "library":
+        library_cleanse()
+    elif task == "book":
+        book_cleanse()
+    else:
+        print(f"Unknown task: {task}. Use 'library' or 'book'")
+        sys.exit(1)

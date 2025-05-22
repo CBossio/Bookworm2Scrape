@@ -11,3 +11,7 @@ def remove_old():
                 os.remove(os.path.join(export_dir, f))
     except Exception as e:
         print("Folder does not exist")
+
+
+if __name__ == "__main__":
+    remove_old()
