@@ -23,11 +23,13 @@ Follow these steps to set up the project on your local machine.
 1. **Go to your dags folder (On linux or WSL)**  
    ```bash
    cd $AIRFLOW_HOME #(if you have it configured)
+   source airflow_env/bin/activate #(or where you have your enviroment)
    cd dags
    ```
    or
    ```bash
    your/path/to/the/dags/folder
+   source airflow_env/bin/activate #(or where you have your enviroment)
    ```
 
 2. **Clone the repository**  
@@ -88,10 +90,14 @@ This step moves the DAG to the dags folder
    ```bash
    pip install -r requirements.txt
    ```
+   
+9. **Open in VS Code, select interpreter (the env one) for the Python and Juptery notebook files**  
+
+10. **When you run the jupyter notebook for the first time it will tell you to install dependencies, you have to press "Accept"**
 
 ---
 
-## Execute Extraction
+## Execute ETL
 
 ### Using Airflow
 <img src="img/airflow_preview.png" alt="ETL Preview" />
@@ -101,7 +107,9 @@ Just click run in the DAG
 
 <img src="img/code_preview_etl.png" alt="ETL Preview" />
 
-Run all cells in order to execute the extraction process.
+Go to Bookworm2Scrape/scrapper
+There you should see a notebook called main_etl.ipynb, open it.
+From there, run all cells in order to execute the extraction process.
 
 ---
 
@@ -122,7 +130,8 @@ Just click run in the DAG
 ### Using Jupyter
 
 <img src="img/code_preview_reporting.png" alt="Reporting Preview" />
-
+Go to Bookworm2Scrape/scrapper
+There you should see a notebook called main_report.ipynb, open it.
 Just like in the extraction step, run all cells in order to generate the report.
 
 ---
