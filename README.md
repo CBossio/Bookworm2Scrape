@@ -23,11 +23,13 @@ Follow these steps to set up the project on your local machine.
 1. **Go to your dags folder (On linux or WSL)**  
    ```bash
    cd $AIRFLOW_HOME #(if you have it configured)
+   source airflow_env/bin/activate #(or where you have your enviroment)
    cd dags
    ```
    or
    ```bash
    your/path/to/the/dags/folder
+   source airflow_env/bin/activate #(or where you have your enviroment)
    ```
 
 2. **Clone the repository**  
