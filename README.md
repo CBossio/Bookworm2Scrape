@@ -43,11 +43,11 @@ Follow these steps to set up the project on your local machine.
    ```bash
    pip install -r requirements.txt
 
-## Execute
+## Execute extraction
 ### Airflow
 
 ### Jupyter
-<img src="img/code_preview.png" alt="logo" />
+<img src="img/code_preview_etl.png" alt="logo" />
 <p> The process its pretty straight foward, you should run all the cells in order<p>
 
 ### Quickfixes & Notes
@@ -56,7 +56,12 @@ You should modify in the setting.py the Proxies, the log shows which is the one 
 
 <p> Sometimes the code throws a random error of charmap codec, but it doesent affect the code</p>
 
+## Execute reporting
+### Airflow
 
+### Jupyter
+<img src="img/code_preview_reporting.png" alt="logo" />
+<p> The same as the extraction process, you should run all the cells in order<p>
 
 
 
