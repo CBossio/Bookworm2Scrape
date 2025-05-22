@@ -26,7 +26,7 @@ def book_cleanse():
     merged_df.loc[:, 'Price_No_Tax'] = merged_df['Price_No_Tax'].str.slice(1).astype(float)
     merged_df.loc[:, 'Price_Tax'] = merged_df['Price_Tax'].str.slice(1).astype(float)
     merged_df.loc[:, 'Tax'] = merged_df['Tax'].str.slice(1).astype(float)
-    result_df = merged_df[['UPC','Category','Title','Currency','Price_Tax', 'Price_No_Tax','Tax', 'Stock_availability', 'Stock_quantity','URL']]
+    result_df = merged_df[['UPC','Category','Title','Currency','Price_Tax', 'Price_No_Tax','Tax', 'Stock_availability', 'Stock_quantity', 'Rating','URL']]
     
     if os.path.exists(os.path.join(current_dir, 'result.csv')):
         old_result_file = pd.read_csv(os.path.join(current_dir, 'result.csv'), encoding= "utf-8")

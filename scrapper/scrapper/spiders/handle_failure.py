@@ -11,5 +11,5 @@ def handle_failure_function(self, failure, code):
         f"Reason: {failure.value} - Proxy: {proxy}"
     )
     
-    with open(os.path.join(export_dir,f"failed_urls{code}.txt"), "a", encoding="utf-8") as f:
+    with open(os.path.join(export_dir,f"failed_urls_{code}.txt"), "a", encoding="utf-8") as f:
         f.write(f"{request.url} | Proxy: {proxy}\n")

@@ -9,7 +9,7 @@ from scrapper.spiders.handle_failure import handle_failure_function
 export_dir = absolute_paths()
 
 #Define class
-class BoosSpider(scrapy.Spider):
+class BookSpider(scrapy.Spider):
     name = "book_data"
     output_path = os.path.join(export_dir, "book_data.csv")
     custom_settings = {

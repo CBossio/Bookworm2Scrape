@@ -104,9 +104,9 @@ USER_AGENTS_LIST = [
 
 #Argentinian Proxies
 PROXY_LIST = [
-    "http://23.82.137.157:80",
-    "http://172.67.182.153:80",
-    "http://172.67.167.156:80"
+     "http://23.82.137.157:80"#,
+    # "http://172.67.182.153:80",
+    # "http://172.67.167.156:80"
 ]
 
 DOWNLOAD_DELAY = 0.5
