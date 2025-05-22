@@ -64,14 +64,14 @@ This step moves the DAG to the dags folder
    git clone https://github.com/CBossio/Bookworm2Scrape.git
    ```
 
-4. **Create a virtual environment**  
-   ```bash
-   python -m venv venv
-   ```
-
-5. **Enter the project folder**  
+4. **Enter the project folder**  
    ```bash
    cd Bookworm2Scrape
+   ```
+
+5. **Create a virtual environment**  
+   ```bash
+   python -m venv venv
    ```
 
 6. **Activate the virtual environment**  
